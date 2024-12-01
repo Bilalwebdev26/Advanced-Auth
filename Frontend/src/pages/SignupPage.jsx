@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import InputformHandle from "../Components/InputformHandle.jsx";
-import { Lock, Mail, User } from "lucide-react";
+import { Lock, Mail, User,Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 import PasswordStrength from "../Components/PasswordStrength.jsx";
 const SignupPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleSignup = () => {
+  const[isLoading,setLoading]=useState(false)
+//   const isLoading=false
+const loadertoggle = ()=>{
+    setLoading(!isLoading)
+}
+  const handleSignup = (e) => {
     console.log("form");
+    e.preventDefault()
   };
   return (
     <motion.div
@@ -30,6 +36,7 @@ const SignupPage = () => {
             placeholder="Full Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
           <InputformHandle
             icon={Mail}
@@ -37,6 +44,7 @@ const SignupPage = () => {
             placeholder="Enter Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <InputformHandle
             icon={Lock}
@@ -44,6 +52,7 @@ const SignupPage = () => {
             placeholder="Set Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           {/* Password Strength meter */}
           <PasswordStrength password={password}/>
@@ -52,8 +61,11 @@ const SignupPage = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
+            // disabled={isLoading}
+            onClick={loadertoggle}
+            
           >
-            Sign Up
+            {isLoading ? <Loader className="h-6 w-6 animate-spin mx-auto"/> : "Sign up"}
           </motion.button>
         </form>
       </div>
