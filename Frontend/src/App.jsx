@@ -4,6 +4,7 @@ import { Routes,Route } from 'react-router-dom'
 import SignupPage from './pages/SignupPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import HomePage from './pages/HomePage.jsx'
+import VerificationEmail from './pages/VerificationEmail.jsx'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='/' element={<HomePage/>}/>
         <Route path='/signup' element={<SignupPage/>}/>
         <Route path='/login' element={<LoginPage/>}/>
+        <Route path='/verify-email' element={<VerificationEmail/>}/>
       </Routes> 
     </div>
   )
