@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/ApiError.js";
+import { User } from "../models/user.model.js";
 
-export const verifyJWT = (req,res,next)=>{
+export const verifyJWT = async(req,res,next)=>{
     const token = req.cookies.token
     try {
         if(!token){

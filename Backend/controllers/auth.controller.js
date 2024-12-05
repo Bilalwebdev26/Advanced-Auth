@@ -76,7 +76,7 @@ export const verifyEmail = async (req, res) => {
         new ApiResponse(201, "Verify user email successfully", createuser, true)
       );
   } catch (error) {
-    throw new ApiError(500, "Server Error while verify email");
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 export const logout = async (req, res) => {
@@ -165,15 +165,17 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export const checkAuth = async(req,res)=>{
+export const checkAuth = async (req, res) => {
   try {
-    const user = await User.findById(req?.userId).select("-password")
-    if(!user){
-      throw new ApiError(400,"User not found")
+    const user = await User.findById(req?.userId).select("-password");
+    if (!user) {
+      throw new ApiError(400, "User not found");
     }
-    return res.status(200).json(new ApiResponse(200,"User Authenticate",user,true))
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "User Authenticate", user, true));
   } catch (error) {
-    console.log(`Error in CheckAuth : ${error}`)
-    return res.status(400).json({success:false,message:error.message})
+    console.log(`Error in CheckAuth : ${error}`);
+    return res.status(400).json({ success: false, message: error.message });
   }
-}
+};

@@ -2,15 +2,26 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import InputformHandle from "../Components/InputformHandle";
 import { Lock, User,Loader } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../Store/AuthStore";
 const LoginPage = () => {
+  const {logIn,error} = useAuthStore()
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const navigate =useNavigate()
   const[loading,setLoading]=useState(false) 
   const toggleLoader = ()=>{
     setLoading(!loading)
   }
-  const handleLogin = (e) => {e.preventDefault()};
+  const handleLogin = async(e) => {
+    e.preventDefault()
+    try {
+      await logIn(email,pass)
+      navigate("/signup")
+    } catch (error) {
+      console.log("error: ",error)
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -41,6 +52,7 @@ const LoginPage = () => {
             }}
             required
           />
+          <p className="text-red-600 font-semibold">{error}</p>
           <h3 className="my-4 text-green-500 font-bold text-sm">
             <Link to={"/reset-password"}>Forgot Password ?</Link>
           </h3>

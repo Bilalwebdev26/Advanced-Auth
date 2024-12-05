@@ -2,20 +2,40 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import InputformHandle from "../Components/InputformHandle.jsx";
 import { Lock, Mail, User,Loader } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordStrength from "../Components/PasswordStrength.jsx";
+import { useAuthStore } from "../Store/AuthStore.js";
 const SignupPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const[isLoading,setLoading]=useState(false)
+  const[Loading,setLoading]=useState(false)
+  const navigate = useNavigate()
 //   const isLoading=false
+
+ const {signup,error,isLoading} = useAuthStore()
+
 const loadertoggle = ()=>{
-    setLoading(!isLoading)
+    // setLoading(!isLoading)
 }
-  const handleSignup = (e) => {
+  const handleSignup = async(e) => {
     console.log("form");
     e.preventDefault()
+    try {
+      await signup(email,password,name)
+      navigate("/verify-email")
+    } catch (error) {
+      console.log("Error :",error)
+    }
+
+    if (name && email && password) {
+      setLoading(true);
+      // Simulate API call
+      // setTimeout(() => {
+      //   console.log("Form Submitted:", { name, email, password });
+      //   setLoading(false);
+      // }, 2000);
+    }
   };
   return (
     <motion.div
@@ -54,6 +74,7 @@ const loadertoggle = ()=>{
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {error && <p className="text-red-600 text-center font-semibold mt-2">{error}</p>}
           {/* Password Strength meter */}
           <PasswordStrength password={password}/>
           <motion.button
@@ -61,8 +82,8 @@ const loadertoggle = ()=>{
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            // disabled={isLoading}
-            onClick={loadertoggle}
+            disabled={isLoading}
+            // onClick={loadertoggle}
             
           >
             {isLoading ? <Loader className="h-6 w-6 animate-spin mx-auto"/> : "Sign up"}
