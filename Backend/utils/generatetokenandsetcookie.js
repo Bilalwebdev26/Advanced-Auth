@@ -5,8 +5,9 @@ export const generateTokenandSetCookie = (res, userId) => {
   });
   res.cookie("token", token, {
     httpOnly: true, //can not accessed by js
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict", //Prevent crsf attack
+    secure: process.env.NODE_ENV === "production"? true : false,
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+    // sameSite: "strict", //Prevent crsf attack
     maxAge: 7 * 24 * 24 * 60 * 1000,
   });
   return token;
