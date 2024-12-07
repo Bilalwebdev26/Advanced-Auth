@@ -43,13 +43,8 @@ export const signup = async (req, res) => {
       "-verificationToken -password"
     );
     //jwt
-    const token = generateTokenandSetCookie(res, user._id);
-    const option = {
-      httpOnly: true,
-      secure: true,
-    };
+   generateTokenandSetCookie(res, user._id);
     return res
-    .cookie("token",token,option)
       .status(201)
       .json(
         new ApiResponse(200, "User Created Successfully", usercreate, true)
