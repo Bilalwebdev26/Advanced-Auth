@@ -8,6 +8,8 @@ import { connectDB } from "./DB/connectDB.js";
 import authRoutes from "../Backend/routes/auth.routes.js";
 dotenv.config();
 
+const __dirname=path.resolve()
+
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json()); //allow us to parse incoming request : req.body
 app.use(cookieParser()); //allow to parse incoming cookies
